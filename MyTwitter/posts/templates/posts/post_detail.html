@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content }}</p>
+    <p>Автор: {{ post.user.username }}</p>
+    <p>Дата створення: {{ post.created_at }}</p>
+    <p>Кількість лайків: {{ post.likes.count }}</p>
+    <strong>Коментарі до посту</strong>
+    {% for comment in post.comments.all %}
+    <li>{{ comment.content }} - {{ comment.created_at }}</li>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        {% if not liked %}
+            <form method="post" action="{% url 'post-detail' post.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="like">
+                <button type="submit">Поставити лайк</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'post-detail' post.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="unlike">
+                <button type="submit">Видалити лайк</button>
+            </form>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

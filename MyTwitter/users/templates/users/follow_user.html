@@ -1,0 +1,7 @@
+{# follow_user.html #}
+<h2>Follow a User</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Follow</button>
+</form>

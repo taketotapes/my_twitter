@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Видалення поста</title>
+</head>
+<body>
+    <h1>Видалення поста</h1>
+    <p>Ви впевнені, що хочете видалити пост "{{ post.title }}"?</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <button type="submit">Так, видалити</button>
+        <a href="{% url 'post-list' %}">Скасувати</a>
+    </form>
+</body>
+</html>

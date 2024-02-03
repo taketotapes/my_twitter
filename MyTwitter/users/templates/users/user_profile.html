@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Профіль користувача</title>
+</head>
+<body>
+    <h1>Профіль користувача</h1>
+    <p>Нікнейм: {{ user.username }}</p>
+    <p>Ім'я: {{ user.first_name }}</p>
+    <p>Пошта: {{ user.email }}</p>
+    <p>Дата приєднання: {{ user.date_joined }}</p>
+    <h2><a href="{% url 'edit-profile' user.id %}">Редагувати профіль</a></h2>
+
+    <h2><a href="{% url 'user-followers' user.id %}">Підписники</a></h2>
+    <ul>
+        {% for follower in followers %}
+            <a>{{ follower.username }}</a>
+        {% endfor %}
+    </ul>
+
+    <h2><a href="{% url 'user-following' user.id %}">Підписки</a></h2>
+    <ul>
+        {% for followed_user in following %}
+            <li>{{ followed_user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if user != request.user %}
+        {% if is_following %}
+            <form method="post" action="{% url 'follow' user.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="followers" value="{{ user.id }}">
+                <button type="submit">Відписатися</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'follow' user.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="followers" value="{{ user.id }}">
+                <button type="submit">Підписатися</button>
+            </form>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
